@@ -32,6 +32,7 @@ export class DateDropdownComponent implements OnInit {
   @Input() set date(inputDate: Date) {
     this._date = inputDate;
     this.setSelects();
+    this.initOptions();
   }
 
   // This lets you output a new date to the Parent component
@@ -74,6 +75,9 @@ export class DateDropdownComponent implements OnInit {
     }
 
     this.availableMonths = availableMonths;
+
+    console.log(this.selectedYear);
+    console.log(hasSelectedThisYear);
   }
 
   initYears() {

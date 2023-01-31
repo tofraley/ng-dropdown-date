@@ -22,26 +22,40 @@ const months = [
 })
 export class DateDropdownComponent implements OnInit {
 
+  availableMonths = months;
+  selectedMonth: number;
+  availableYears;
+  selectedYear: number;
+
   // This lets you set the date from the Parent component
-  private _date: Date = new Date();
+  private _date: Date;
   @Input() set date(inputDate: Date) {
     this._date = inputDate;
+    this.setSelects();
   }
 
   // This lets you output a new date to the Parent component
   @Output() dateChangedEvent = new EventEmitter<Date>();
 
-  availableMonths = months;
-  selectedMonth = this._date.getMonth();
-
-  availableYears = [this._date.getFullYear()];
-  selectedYear = this._date.getFullYear();
-
-
   selDate = () => new Date(this.selectedYear, this.selectedMonth);
 
+  constructor() {
+    this._date = new Date();
+    this.availableMonths = months;
+    this.availableYears = [this._date.getFullYear()];
+    this.selectedMonth = this._date.getMonth();
+    this.selectedYear = this._date.getFullYear();
+  }
+
   ngOnInit() {
-    this.initOptions()
+    this.initOptions();
+    this.setSelects();
+    console.log("set on init");
+  }
+
+  setSelects() {
+    this.selectedMonth = this._date.getMonth();
+    this.selectedYear = this._date.getFullYear();
   }
 
   initOptions() {
@@ -77,16 +91,14 @@ export class DateDropdownComponent implements OnInit {
       .map(x => latestAllowedYear - x);
   }
 
-  onMonthChange = (event: Event) => {
-    const eventVal = (event.target as HTMLInputElement).value;
-    this.selectedMonth = parseInt(eventVal);
+  onMonthChange = (event: number) => {
+    this.selectedMonth = event;
     this.initOptions();
     this.dateChangedEvent.emit(this.selDate());
   }
 
-  onYearChange = (event: Event) => {
-    const eventVal = (event.target as HTMLInputElement).value;
-    this.selectedYear = parseInt(eventVal);
+  onYearChange = (event: number) => {
+    this.selectedYear = event;
     this.initOptions();
     this.dateChangedEvent.emit(this.selDate());
   }

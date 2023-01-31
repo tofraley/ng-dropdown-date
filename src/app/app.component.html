@@ -1,3 +1,4 @@
 <h1>Hello world</h1>
 <app-date-dropdown [date]="this.date" (dateChangedEvent)="this.onDateChanged($event)"></app-date-dropdown>
-<p>{{this.date.toDateString()}}</p>
+<button (click)="this.setToToday()">Today</button>
+<!-- <p>{{this.date.toDateString()}}</p> -->
